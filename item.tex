@@ -1,0 +1,42 @@
+% BIOGRAFIAS
+
+% Required packages
+\usepackage{hyperref}
+\usepackage{datatool}
+
+% Define the data base.
+\DTLnewdb{biography}
+
+% STYLE 1: STATIC BIOGRAFY
+% Define a command named \bioitem to input the data in rows with 5 columns.
+\newcommand{\bioitem}[5]{%
+  \DTLnewrow{biography}% Must coincide with some data base.
+  \DTLnewdbentry{biography}{label}{#1}%
+  \DTLnewdbentry{biography}{name}{#2}%
+  \DTLnewdbentry{biography}{birth}{#3}%
+  \DTLnewdbentry{biography}{death}{#4}%
+  \DTLnewdbentry{biography}{description}{#5}%
+}
+% Print the biography sorted by name
+\newcommand{\printBiography}{%
+\begin{description}
+\DTLforeach{biography}{\label=label, \name=name, \birth=birth, \death=death, \description=description}{%
+  \item[\name \hspace{1mm}(\birth \hspace{1mm}- \death)]\hypertarget{\label}{} \description
+}
+\end{description}%
+}
+
+
+
+%Make a section for biography: \section{Biographies} (optional)
+%Cite with: \biohyperlink{nameLabel}{lastName}
+%Define the entries of the data base in the \document with:
+%\bioitem{nameLabel}{name}{birth}{date}{description}
+%Change the type of sort in the definition of \printBiography: 
+%\DTLsort{type}{biography}, type = name, label, etc.
+%Print the biographies: in \document write \printBiography 
+%I suggest to split the entries of the data base in a separte file, 
+%e.g. biographies.tex
+%I further suggest define a universal file biographies.tex 
+%and print the referenced entries only.
+

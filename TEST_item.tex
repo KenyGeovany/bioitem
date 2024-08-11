@@ -1,0 +1,36 @@
+\documentclass{article}
+\input{item}
+
+\title{TEST: item}
+\author{KenyGeovany}
+\date{11 August 2024}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+Import item.tex with input and uses it to create an environment for biographies. 
+
+\begin{itemize}
+    \item Create items with \verb|\bioitem| command with 5 parameters: a unique label wich serves as an ID of the biography, the name, birth date and death date of the figure and a description.
+    \item Print with \verb|\printBiography| command.
+    \item Cite with \verb|\hyperlink|: \hyperlink{bioNewton}{Newton}.
+    \item Cite many times do not causes error: \hyperlink{bioWaring}{Waring1}, \hyperlink{bioWaring}{Waring2}.
+    \item If you try to cite an inexistent bioitem then no error is detected but the hyperlink is missed.
+    \hyperlink{bioRiemann}{Riemann}
+    \item By default all cites are printed even if they have not been cited.
+    \item All parameters for each figure need to be defined. I recomend to write \verb|?| for unknown dates.
+    \item It is possible to print the pages were a biography was cited with an hyperlink?
+\end{itemize}
+
+In future versions this package will be improved.
+
+\section{Biographies}
+% Definir las biografías.
+\input{biography}
+% Imprimir las biografías
+\printBiography
+
+
+\end{document}
