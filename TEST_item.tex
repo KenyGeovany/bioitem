@@ -14,7 +14,7 @@ Import item.tex with input and uses it to create an environment for biographies.
 
 \begin{itemize}
     \item Create items with \verb|\bioitem| command with 5 parameters: a unique label wich serves as an ID of the biography, the name, birth date and death date of the figure and a description.
-    \item Print with \verb|\printBiography| command.
+    \item Print with \verb|\printBiography| command. The biographies will will be printed by the order chosen in the definition of \verb|\printBiography|, by default the name.
     \item Cite with \verb|\biohyperlink|: \biohyperlink{bioNewton}{Newton}. You can also use \verb|\hyperlink| but probably it will causes unexpected warnings \hyperlink{bioNewton}{Newton}.
     \item Cite many times do not causes error: \biohyperlink{bioWaring}{Waring1}, \biohyperlink{bioWaring}{Waring2}.
     \item If you try to cite an nonexistent bioitem then a warning message is displayed (with the corresponding line) and the link is not showed.
