@@ -15,13 +15,14 @@ Import item.tex with input and uses it to create an environment for biographies.
 \begin{itemize}
     \item Create items with \verb|\bioitem| command with 5 parameters: a unique label wich serves as an ID of the biography, the name, birth date and death date of the figure and a description.
     \item Print with \verb|\printBiography| command.
-    \item Cite with \verb|\hyperlink|: \hyperlink{bioNewton}{Newton}.
-    \item Cite many times do not causes error: \hyperlink{bioWaring}{Waring1}, \hyperlink{bioWaring}{Waring2}.
-    \item If you try to cite an inexistent bioitem then no error is detected but the hyperlink is missed.
-    \hyperlink{bioRiemann}{Riemann}
-    \item By default all cites are printed even if they have not been cited.
-    \item All parameters for each figure need to be defined. I recomend to write \verb|?| for unknown dates.
+    \item Cite with \verb|\biohyperlink|: \biohyperlink{bioNewton}{Newton}. You can also use \verb|\hyperlink| but probably it will causes unexpected warnings \hyperlink{bioNewton}{Newton}.
+    \item Cite many times do not causes error: \biohyperlink{bioWaring}{Waring1}, \biohyperlink{bioWaring}{Waring2}.
+    \item If you try to cite an nonexistent bioitem then a warning message is displayed (with the corresponding line) and the link is not showed.
+    \biohyperlink{bioRiemann}{Riemann}
+    \item Only referenced biographies are showed. If there is not any reference to a biography then a warning message is showed. In future version a option to show all cites will be implement.
+    \item All parameters for each figure need to be defined. I recommend to write \verb|?| for unknown dates.
     \item It is possible to print the pages were a biography was cited with an hyperlink?
+    \item This package was tested only in overleaf.
 \end{itemize}
 
 In future versions this package will be improved.

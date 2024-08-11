@@ -1,31 +1,65 @@
 % BIOGRAFIAS
 
-% Required packages
+%Necesary commands
 \usepackage{hyperref}
 \usepackage{datatool}
+\usepackage{xcolor}
 
 % Define the data base.
 \DTLnewdb{biography}
 
-% STYLE 1: STATIC BIOGRAFY
+%DINAMIC BIOGRAFY
+% Definir el comando personalizado \mylabel
+\newcommand{\biolabel}[1]{%
+  \expandafter\gdef\csname bio@label@#1\endcsname{}%
+}
 % Define a command named \bioitem to input the data in rows with 5 columns.
 \newcommand{\bioitem}[5]{%
-  \DTLnewrow{biography}% Must coincide with some data base.
+  \DTLnewrow{biography}% Debe coincidir con alguna base de datos
   \DTLnewdbentry{biography}{label}{#1}%
   \DTLnewdbentry{biography}{name}{#2}%
   \DTLnewdbentry{biography}{birth}{#3}%
   \DTLnewdbentry{biography}{death}{#4}%
   \DTLnewdbentry{biography}{description}{#5}%
+  \label{LabelUniqueFromPackageBiographyBioItem#1}%
+  % Label para verificar si una referencia apunta a una
+  % biografía existente.
 }
-% Print the biography sorted by name
-\newcommand{\printBiography}{%
-\begin{description}
-\DTLforeach{biography}{\label=label, \name=name, \birth=birth, \death=death, \description=description}{%
-  \item[\name \hspace{1mm}(\birth \hspace{1mm}- \death)]\hypertarget{\label}{} \description
+% Command to make hyperlinks with control of labels
+\newcommand{\biohyperlink}[2]{%
+% Se verifica primero si el label está definida para algún bioitem
+\ifcsname r@LabelUniqueFromPackageBiographyBioItem#1\endcsname
+    % Label personalizado para imprimir un label si esta etiqueta existe
+    % \biolabel no presenta ningún warning por duplicación
+    \biolabel{LabelUniqueFromPackageBiography#1}%
+    \hyperlink{#1}{\textcolor{purple}{#2}}%
+\else
+    \PackageWarning{biography}{Biography Label does not exists}%
+\fi
 }
-\end{description}%
+\newcommand{\printBiography}[0]{%
+  \newcount\countreferenced
+  \countreferenced=0
+  \DTLforeach{biography}{\label=label}{%
+    \ifcsname bio@label@LabelUniqueFromPackageBiography\label\endcsname
+      \advance\countreferenced by 1
+    \fi
+  } % Check first if some reference there exists
+  \ifnum\countreferenced>0
+    \begin{description}
+    \DTLsort{name}{biography}% Sorter the biographies
+    \DTLforeach{biography}{\label=label, \name=name, \birth=birth, \death=death, \description=description}{%
+      \ifcsname bio@label@LabelUniqueFromPackageBiography\label\endcsname
+        \item[\name \hspace{1mm}(\birth \hspace{1mm} - \death)]%
+        \hypertarget{\label}{} \description
+      \fi
+    } % If there is some reference then print the biography
+    \end{description}
+  \else
+    % If not, print a warning
+    \PackageWarning{biography}{None biography referenced can be found}
+  \fi
 }
-
 
 
 %Make a section for biography: \section{Biographies} (optional)
@@ -39,4 +73,3 @@
 %e.g. biographies.tex
 %I further suggest define a universal file biographies.tex 
 %and print the referenced entries only.
-
